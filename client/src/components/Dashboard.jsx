@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchStockData } from "../utils/mockup";
+import "./Dashboard.css";
+import { getPEClass, getPEGClass, getPSClass } from "../utils/functions";
 
 function Dashboard() {
     // States
@@ -34,6 +36,8 @@ function Dashboard() {
         }
     };
 
+    
+
     return (
         <div className="Dashboard">
             <h1>TrackStock</h1>
@@ -56,9 +60,9 @@ function Dashboard() {
                             <tr key={stock.symbol}>
                                 <td>{stock.symbol}</td>
                                 <td>{stock.price}</td>
-                                <td>{stock.ps}</td>
-                                <td>{stock.pe}</td>
-                                <td>{stock.peg}</td>
+                                <td className={getPSClass(stock.ps)}>{stock.ps}</td>
+                                <td className={getPEClass(stock.pe)}>{stock.pe}</td>
+                                <td className={getPEGClass(stock.peg)}>{stock.peg}</td>
                             </tr>
                         ))}
                     </tbody>
