@@ -48,8 +48,14 @@ td:not(:first-child) {
     text-align: right;
 }
 
+/* 
 tr:hover {
     background-color: var(--bg);
+}
+*/
+
+.mLevel1, .mLevel2, .mLevel3, .mLevel4, .mLevel5 {
+    font-weight: bold;
 }
 
 .mLevel1 {
