@@ -14,3 +14,10 @@ h1{
 body{
     background: var(--bgDarker);
 }
+
+.form{
+    background: var(--bg);
+    width: 40vw;
+    margin: auto;
+    box-sizing: border-box;
+}

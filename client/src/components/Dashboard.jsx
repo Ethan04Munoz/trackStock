@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { fetchStockData } from "../utils/mockup";
 import "./Dashboard.css";
 import { getPEClass, getPEGClass, getPSClass } from "../utils/functions";
+import Search from "./Search";
 
 function Dashboard() {
     // States
@@ -36,38 +37,39 @@ function Dashboard() {
         }
     };
 
-    
-
     return (
         <div className="Dashboard">
-            <h1>TrackStock</h1>
-            <button onClick={addStock}>Add Stock (AAPL)</button>
-            {stockData.length === 0 ? (
-                <p>No stocks are being tracked yet.</p>
-            ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Symbol</th>
-                            <th>Price</th>
-                            <th>P/S</th>
-                            <th>P/E</th>
-                            <th>PEG</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {stockData.map((stock) => (
-                            <tr key={stock.symbol}>
-                                <td>{stock.symbol}</td>
-                                <td>{stock.price}</td>
-                                <td className={getPSClass(stock.ps)}>{stock.ps}</td>
-                                <td className={getPEClass(stock.pe)}>{stock.pe}</td>
-                                <td className={getPEGClass(stock.peg)}>{stock.peg}</td>
+            <div className="form">
+                <h1>TrackStock</h1>
+                <Search onClick={addStock} />
+                {stockData.length === 0 ? (
+                    <p>No stocks are being tracked yet.</p>
+                ) : (
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Price</th>
+                                <th>P/S</th>
+                                <th>P/E</th>
+                                <th>PEG</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+                        </thead>
+                        <tbody>
+                            {stockData.map((stock) => (
+                                <tr key={stock.symbol}>
+                                    <td>{stock.symbol}</td>
+                                    <td>{stock.price}</td>
+                                    <td className={getPSClass(stock.ps)}>{stock.ps}</td>
+                                    <td className={getPEClass(stock.pe)}>{stock.pe}</td>
+                                    <td className={getPEGClass(stock.peg)}>{stock.peg}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+
         </div>
     );
 }
