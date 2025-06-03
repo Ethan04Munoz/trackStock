@@ -28,8 +28,7 @@ function Dashboard() {
 
     // Función para agregar una nueva acción a la lista de seguimiento
     // (En este caso, se agrega AAPL como ejemplo, pendiendte de desarrollo el poder elegir el símbolo)
-    function addStock() {
-        const newSymbol = "AAPL";
+    function addStock(newSymbol) {
         if (!symbols.includes(newSymbol)) {
             const updatedSymbols = [...symbols, newSymbol];
             setSymbols(updatedSymbols);

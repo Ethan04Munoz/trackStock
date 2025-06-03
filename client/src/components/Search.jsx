@@ -45,7 +45,9 @@ function Search (props) {
                         key={index}
                     >
                         <p>{stock.symbol} - {stock.name}</p>
-                        <button onClick={props.onClick}>Add</button>
+                        <button onClick={() => props.onClick(stock.symbol)}>
+                            Add
+                        </button>
                     </li>
                 ))}
             </ul>
