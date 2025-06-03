@@ -3,6 +3,7 @@ import { fetchStockData } from "../utils/mockup";
 import "./Dashboard.css";
 import { getPEClass, getPEGClass, getPSClass } from "../utils/functions";
 import Search from "./Search";
+import axios from "axios";
 
 function Dashboard() {
     // States
@@ -17,13 +18,25 @@ function Dashboard() {
         }
     }, []);
 
-    // Obtener la informacion de las acciones usando los simbolos 
+    // Obtener la información de las acciones usando los símbolos
     useEffect(() => {
-        const data = symbols.map(symbol => ({
-            symbol,
-            ...fetchStockData(symbol)
-        }));
-        setStockData(data);
+        const fetchData = async () => {
+            try {
+                const requests = symbols.map(symbol =>
+                    axios.get(`http://localhost:5000/stock/${symbol}`)
+                );
+                const responses = await Promise.all(requests);
+                console.log(responses);
+                const data = responses.map((response, index) => ({
+                    symbol: symbols[index],
+                    ...response.data
+                }));
+                setStockData(data);
+            } catch (error) {
+                console.error('Error fetching stock data:', error);
+            }
+        };
+        fetchData();
     }, [symbols]);
 
     // Función para agregar una nueva acción a la lista de seguimiento
@@ -58,9 +71,9 @@ function Dashboard() {
                             <tr key={stock.symbol}>
                                 <td>{stock.symbol}</td>
                                 <td>{stock.price}</td>
-                                <td className={getPSClass(stock.ps)}>{stock.ps}</td>
-                                <td className={getPEClass(stock.pe)}>{stock.pe}</td>
-                                <td className={getPEGClass(stock.peg)}>{stock.peg}</td>
+                                <td className={getPSClass(stock.metrics.ps)}>{stock.metrics.ps}</td>
+                                <td className={getPEClass(stock.metrics.pe)}>{stock.metrics.pe}</td>
+                                <td className={getPEGClass(stock.metrics.peg)}>{stock.metrics.peg}</td>
                             </tr>
                         ))}
                     </tbody>

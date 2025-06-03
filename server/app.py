@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/search": {"origins": "http://localhost:5173"}})
+CORS(app, resources={r"/search": {"origins": "http://localhost:5173"}, r"/stock/*": {"origins": "http://localhost:5173"}})
 
 def get_stock_data(ticker):
     stock = yf.Ticker(ticker)
@@ -32,10 +32,10 @@ def calculate_metrics(info, history):
 
     # Retornar métricas calculadas
     return {
-        'P/E': pe_ratio,
-        'P/S': ps_ratio,
-        'PEG': peg_ratio,
-        '5yr_growth': growth_rate
+        'pe': pe_ratio,
+        'ps': ps_ratio,
+        'peg': peg_ratio,
+        '5yrGrwth': growth_rate
     }
 
 @app.route('/stock/<ticker>', methods=['GET'])
@@ -45,8 +45,8 @@ def stock_data(ticker):
         metrics = calculate_metrics(info, history)
         return jsonify({
             'ticker': ticker,
-            'current_price': info.get('currentPrice', None),
-            'info': info,
+            'price': info.get('currentPrice', None),
+            #'info': info,
             'metrics': metrics
         })
     except Exception as e:
