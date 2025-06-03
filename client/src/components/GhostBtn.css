@@ -1,0 +1,14 @@
+.btnGhost{
+    background: transparent;
+    border: 1px solid var(--transparent);
+    color: var(--text);
+    padding: 0.5rem 1rem;   
+    border-radius: 1rem;
+    font-weight: 700;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.btnGhost:hover{
+    background: var(--hover);
+}
