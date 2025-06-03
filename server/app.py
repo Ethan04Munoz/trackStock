@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import yfinance as yf
 from flask_cors import CORS
+import google.generativeai as generativeai
 
 app = Flask(__name__)
 
@@ -76,6 +77,27 @@ def search_stocks():
         print("Excepcion al buscar el ticker")
         return jsonify([])
 
+@app.route('/recommend_stocks', methods=['POST'])
+def recommend_stocks():
+    data = request.get_json()
+
+    generativeai.configure(api_key=data.get('api_key'))
+
+    user_stocks = data.get('user_stocks', [])  #Ejemplo: ["AAPL", "GOOGL", "MSFT"]
+
+    #Crear un prompt 
+    prompt = f"Basado en las acciones que el usuario sigue: {', '.join(user_stocks)}, recomienda otras acciones de sectores similares o con valuaciones comparables."
+
+    #Configurar el modelo de Gemini
+    model = generativeai.GenerativeModel('gemini-1.5-flash')
+        
+    #Genera contenido usando el modelo
+    response = model.generate_content(prompt)
+
+    #Procesa la respuesta de Gemini
+    recommendations = response.text
+
+    return jsonify({'recommendations': recommendations})
 
 if __name__ == '__main__':
     app.run(debug=True)
