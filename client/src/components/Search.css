@@ -1,0 +1,28 @@
+.searchContainer{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.searchStockInput{
+    width: 100%;
+    background: var(--bg);
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li, .loadingOption {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--text);
+}
+
+li p {
+    grid-column: span 9;
+}
