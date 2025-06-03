@@ -16,7 +16,11 @@ button {
     border: none;
     cursor: pointer;
 }
-
+/*
+button:focus {
+    outline: none;
+}
+*/
 button:hover {
     background-color: #45a049;
 }

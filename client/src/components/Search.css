@@ -4,11 +4,7 @@
 }
 
 .searchStockInput{
-    width: 100%;
-    background: var(--bg);
-    padding: 0.5rem;
-    box-sizing: border-box;
-    border: 1px solid #ffffff86;
+
 }
 
 ul {
