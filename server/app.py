@@ -15,7 +15,14 @@ def get_stock_data(ticker):
 
 def calculate_metrics(info, history):
     pe_ratio = info.get('trailingPE', None)
+    fwd_pe_ratio = info.get('forwardPE', None)
     ps_ratio = info.get('priceToSalesTrailing12Months', None)
+    peg_ratio = info.get('trailingPegRatio', None)
+    debt_to_equity = info.get('debtToEquity', None)
+    fifty_day_avg = info.get('fiftyDayAverage', None)
+    fifty_two_week_high = info.get('fiftyTwoWeekHigh', None)
+    gross_margin = info.get('grossMargins', None)
+    pb_ratio = info.get('priceToBook', None)
 
     # Calcular crecimiento histórico si hay datos
     if not history.empty:
@@ -25,17 +32,17 @@ def calculate_metrics(info, history):
     else:
         growth_rate = None
 
-    # Calcular PEG si P/E y crecimiento están disponibles
-    if pe_ratio and growth_rate:
-        peg_ratio = pe_ratio / growth_rate  
-    else:
-        peg_ratio = None
-
     # Retornar métricas calculadas
     return {
         'pe': pe_ratio,
+        'fwd_pe': fwd_pe_ratio,
         'ps': ps_ratio,
         'peg': peg_ratio,
+        'debt_to_equity': debt_to_equity,
+        '50_day_avg': fifty_day_avg,
+        '52_week_high': fifty_two_week_high,
+        'gross_margin': gross_margin,
+        'pb': pb_ratio,
         '5yrGrwth': growth_rate
     }
 
