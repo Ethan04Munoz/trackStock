@@ -2,8 +2,7 @@
 
 .Dashboard {
     padding: 20px;
-    background: var(--bgDarker);
-    height: 100vh;
+    background: var(--bg);
 }
 
 h1 {
