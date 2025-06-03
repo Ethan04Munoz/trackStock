@@ -1,7 +1,10 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import yfinance as yf
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/search": {"origins": "http://localhost:5173"}})
 
 def get_stock_data(ticker):
     stock = yf.Ticker(ticker)
@@ -48,6 +51,31 @@ def stock_data(ticker):
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+ 
+@app.route('/search', methods=['GET'])
+def search_stocks():
+    query = request.args.get('query', '').upper()
+    print(f"Search query: {query}")
+    if not query:
+        return jsonify([])
+
+    try:
+        ticker = yf.Ticker(query)
+        info = ticker.info
+        print(f"Ticker {ticker}/n")
+        
+        if 'symbol' not in info or 'longName' not in info:
+            return jsonify([])
+
+        result = [{
+            'symbol': info['symbol'],
+            'name': info.get('longName', 'Nombre no disponible')
+        }]
+        return jsonify(result)
+    except Exception:
+        print("Excepcion al buscar el ticker")
+        return jsonify([])
+
 
 if __name__ == '__main__':
     app.run(debug=True)
