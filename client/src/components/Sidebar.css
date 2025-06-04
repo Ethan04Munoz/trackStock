@@ -1,0 +1,8 @@
+.apikey{
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.apikey input {
+    grid-column: span 9;
+}
