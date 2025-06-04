@@ -1,8 +1,61 @@
-.apikey{
+.sidebar {
+    padding: 7.5%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.apikey {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
 }
 
 .apikey input {
     grid-column: span 9;
+}
+
+.sendr {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid var(--transparent);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: 0.2s ease;
+}
+
+.sendrDbld {
+    background: var(--bg);
+    cursor: pointer;
+}
+
+.sendrEbld {
+    background: var(--hover);
+}
+
+.sendr svg {
+    width: 20px;
+    height: 20px;
+}
+
+.sendrEbld:hover {
+    background-color: var(--text2);
+}
+
+.textarea-container {
+    position: relative;
+    display: block;
+}
+
+.suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }

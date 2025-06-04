@@ -8,7 +8,7 @@ function Main() {
     return (
         <div className="main">
             <Header page="/"/>
-            <div className="page">
+            <div className="page mainPage">
                 {/*<div className="sidebar">
                     mockup
                 </div>*/}

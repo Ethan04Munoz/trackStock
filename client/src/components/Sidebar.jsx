@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Sidebar.css';
 import HelpButton from './Helpbutton';
 import GhostBtn from './GhostBtn';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 function Sidebar() {
+    const [activeBtn, setActiveBtn] = useState(true);
+
     return (
         <div className="sidebar">
-            <textarea name="" id="" placeholder='Ask...'></textarea>
+            <h3>StockAI</h3>
+            <div className="textarea-container">
+                <textarea name="" id="" placeholder='Ask...'>
+                </textarea>
+                <button disabled={activeBtn} className={`sendr ${activeBtn == true ? 'sendrEbld' : 'sendrDbld'}`}>
+                    <FontAwesomeIcon icon={faArrowUp} />
+                </button>
+            </div>
             <div className="apikey">
                 <input type="text" placeholder='Write here your Gemini API Key' />
                 <HelpButton
@@ -21,8 +32,11 @@ function Sidebar() {
                     it from GitHub and run it locally."
                 />
             </div>
-            <GhostBtn text="Suggest similar stocks"/>
-            <GhostBtn text="Diversify my portfolio" />
+            <hr />
+            <div className="suggestions">
+                <GhostBtn text="Suggest similar stocks" />
+                <GhostBtn text="Diversify my portfolio" />
+            </div>
         </div>
     );
 }

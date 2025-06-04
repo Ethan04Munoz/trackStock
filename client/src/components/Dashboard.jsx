@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { fetchStockData } from "../utils/mockup";
 import "./Dashboard.css";
-import { getPEClass, getPEGClass, getPSClass } from "../utils/functions";
+import { getPEClass, getPEGClass, getPSClass, truncate } from "../utils/functions";
 import Search from "./Search";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 
 function Dashboard() {
@@ -62,7 +64,7 @@ function Dashboard() {
                             <th>Symbol</th>
                             <th>Price</th>
                             <th>P/E</th>
-                            <th>Forward P/E</th>
+                            <th>FWD P/E</th>
                             <th>P/S</th>
                             <th>PEG</th>
                             <th>Debt to Equity</th>
@@ -70,6 +72,7 @@ function Dashboard() {
                             <th>52 Weeks High</th>
                             <th>Gross Margin</th>
                             <th>P/B</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,15 +80,16 @@ function Dashboard() {
                             <tr key={stock.symbol}>
                                 <td>{stock.symbol}</td>
                                 <td>{stock.price}</td>
-                                <td className={getPEClass(stock.metrics.pe)}>{stock.metrics.pe}</td>
-                                <td className={getPEClass(stock.metrics.fwd_pe)}>{stock.metrics.fwd_pe}</td>
-                                <td className={getPSClass(stock.metrics.ps)}>{stock.metrics.ps}</td>
-                                <td className={getPEGClass(stock.metrics.peg)}>{stock.metrics.peg}</td>
-                                <td>{stock.metrics.debt_to_equity}</td>
-                                <td>{stock.metrics.fifty_day_avg}</td>
-                                <td>{stock.metrics.fifty_two_week_high}</td>
-                                <td>{stock.metrics.gross_margin}</td>
-                                <td>{stock.metrics.pb}</td>
+                                <td className={getPEClass(stock.metrics.pe)}>{truncate(stock.metrics.pe, 2)}</td>
+                                <td className={getPEClass(stock.metrics.fwd_pe)}>{truncate(stock.metrics.fwd_pe, 2)}</td>
+                                <td className={getPSClass(stock.metrics.ps)}>{truncate(stock.metrics.ps, 2)}</td>
+                                <td className={getPEGClass(stock.metrics.peg)}>{truncate(stock.metrics.peg, 2)}</td>
+                                <td>{truncate(stock.metrics.debt_to_equity, 2)}</td>
+                                <td>{truncate(stock.metrics.fifty_day_avg, 2)}</td>
+                                <td>{truncate(stock.metrics.fifty_two_week_high, 2)}</td>
+                                <td>{truncate(stock.metrics.gross_margin, 2)}</td>
+                                <td>{truncate(stock.metrics.pb, 2)}</td>
+                                <td><FontAwesomeIcon icon={faTrash} /></td>
                             </tr>
                         ))}
                     </tbody>

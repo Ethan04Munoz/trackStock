@@ -3,27 +3,15 @@
 .Dashboard {
     padding: 20px;
     background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 h1 {
     color: var(--text);
 }
 
-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: var(--text);
-    border: none;
-    cursor: pointer;
-}
-/*
-button:focus {
-    outline: none;
-}
-*/
-button:hover {
-    background-color: #45a049;
-}
 
 table {
     width: 100%;
@@ -57,7 +45,11 @@ tr:hover {
 }
 */
 
-.mLevel1, .mLevel2, .mLevel3, .mLevel4, .mLevel5 {
+.mLevel1,
+.mLevel2,
+.mLevel3,
+.mLevel4,
+.mLevel5 {
     font-weight: bold;
 }
 

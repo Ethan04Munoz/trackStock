@@ -26,16 +26,43 @@ input[type="text"] {
     width: 100%;
     background: var(--bg);
     padding: 0.5rem;
+    border-radius: 0.5rem;
     box-sizing: border-box;
     border: 1px solid var(--transparent);
 }
 
+input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border: 1px solid var(--text2);
+}
+
 textarea{
+    padding: 1rem;
     width: 100%;
     min-height: 30vh;
     max-height: 60vh;
     resize: none;
     background: var(--bg);
     border: 1px solid var(--transparent);
+    border-radius: 1rem;
     box-sizing: border-box;
 }
+
+/*
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: var(--text);
+    border: none;
+    cursor: pointer;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+*/
+

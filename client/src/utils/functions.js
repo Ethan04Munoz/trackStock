@@ -21,3 +21,8 @@ export function getPEClass(value) {
     if (value > 24 && value <= 31) return "mLevel4";
     return "mLevel5";
 };
+
+export function truncate(num, decimals) {
+    const factor = Math.pow(10, decimals);
+    return Math.trunc(num * factor) / factor;
+}
