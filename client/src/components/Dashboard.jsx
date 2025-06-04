@@ -61,9 +61,15 @@ function Dashboard() {
                         <tr>
                             <th>Symbol</th>
                             <th>Price</th>
-                            <th>P/S</th>
                             <th>P/E</th>
+                            <th>Forward P/E</th>
+                            <th>P/S</th>
                             <th>PEG</th>
+                            <th>Debt to Equity</th>
+                            <th>50 days Average</th>
+                            <th>52 Weeks High</th>
+                            <th>Gross Margin</th>
+                            <th>P/B</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,9 +77,15 @@ function Dashboard() {
                             <tr key={stock.symbol}>
                                 <td>{stock.symbol}</td>
                                 <td>{stock.price}</td>
-                                <td className={getPSClass(stock.metrics.ps)}>{stock.metrics.ps}</td>
                                 <td className={getPEClass(stock.metrics.pe)}>{stock.metrics.pe}</td>
+                                <td className={getPEClass(stock.metrics.fwd_pe)}>{stock.metrics.fwd_pe}</td>
+                                <td className={getPSClass(stock.metrics.ps)}>{stock.metrics.ps}</td>
                                 <td className={getPEGClass(stock.metrics.peg)}>{stock.metrics.peg}</td>
+                                <td>{stock.metrics.debt_to_equity}</td>
+                                <td>{stock.metrics.fifty_day_avg}</td>
+                                <td>{stock.metrics.fifty_two_week_high}</td>
+                                <td>{stock.metrics.gross_margin}</td>
+                                <td>{stock.metrics.pb}</td>
                             </tr>
                         ))}
                     </tbody>

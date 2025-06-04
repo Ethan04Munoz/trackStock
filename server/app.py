@@ -39,8 +39,8 @@ def calculate_metrics(info, history):
         'ps': ps_ratio,
         'peg': peg_ratio,
         'debt_to_equity': debt_to_equity,
-        '50_day_avg': fifty_day_avg,
-        '52_week_high': fifty_two_week_high,
+        'fifty_day_avg': fifty_day_avg,
+        'fifty_two_week_high': fifty_two_week_high,
         'gross_margin': gross_margin,
         'pb': pb_ratio,
         '5yrGrwth': growth_rate
