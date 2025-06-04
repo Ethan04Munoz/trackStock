@@ -5,7 +5,9 @@
 
 .sidebar{
     height: 85vh;
-    background: #ff55ff;
+    background: var(--bg);
+    border-right: 2px solid var(--transparent);
+    box-sizing: border-box;
 }
 
 .page .Dashboard{
