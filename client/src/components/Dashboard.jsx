@@ -11,6 +11,7 @@ function Dashboard() {
     // States
     const [symbols, setSymbols] = useState([]);
     const [stockData, setStockData] = useState([]);
+    const [stocks, setStocks] = useState([]);
 
     // Obtener desde el localStorage los simbolos de acciones
     useEffect(() => {
@@ -33,6 +34,14 @@ function Dashboard() {
                     symbol: symbols[index],
                     ...response.data
                 }));
+
+                //Set the stock data (symbol, industry)
+                const stockdata = responses.map((response, index) => ({
+                    symbol: symbols[index],
+                    industry: response.data.industry,
+                }));
+                setStocks(stockdata);
+
                 setStockData(data);
             } catch (error) {
                 console.error('Error fetching stock data:', error);
@@ -41,8 +50,6 @@ function Dashboard() {
         fetchData();
     }, [symbols]);
 
-    // Función para agregar una nueva acción a la lista de seguimiento
-    // (En este caso, se agrega AAPL como ejemplo, pendiendte de desarrollo el poder elegir el símbolo)
     function addStock(newSymbol) {
         if (!symbols.includes(newSymbol)) {
             const updatedSymbols = [...symbols, newSymbol];
@@ -50,6 +57,15 @@ function Dashboard() {
             localStorage.setItem("trackedSymbols", JSON.stringify(updatedSymbols));
         }
     };
+    
+    useEffect(() => {
+        console.log("Stock data updated:", stocks);
+        if (stocks.length > 0) {
+            localStorage.setItem("trackedStocks", JSON.stringify(stocks));
+        }
+    }
+    , [stocks]);
+
 
     return (
         <div className="Dashboard">
