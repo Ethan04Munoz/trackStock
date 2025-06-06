@@ -57,6 +57,16 @@ function Dashboard() {
             localStorage.setItem("trackedSymbols", JSON.stringify(updatedSymbols));
         }
     };
+
+    function deleteStock(symbol) {
+        const updatedSymbols = symbols.filter(s => s !== symbol);
+        setSymbols(updatedSymbols);
+        localStorage.setItem("trackedSymbols", JSON.stringify(updatedSymbols));
+        
+        const updatedStockData = stockData.filter(stock => stock.symbol !== symbol);
+        setStockData(updatedStockData);
+        localStorage.setItem("trackedStocks", JSON.stringify(updatedStockData));
+    }
     
     useEffect(() => {
         console.log("Stock data updated:", stocks);
@@ -105,7 +115,7 @@ function Dashboard() {
                                 <td>{truncate(stock.metrics.fifty_two_week_high, 2)}</td>
                                 <td>{truncate(stock.metrics.gross_margin, 2)}</td>
                                 <td>{truncate(stock.metrics.pb, 2)}</td>
-                                <td><FontAwesomeIcon icon={faTrash} /></td>
+                                <td onClick={() => deleteStock(stock.symbol)} className="btn_delete"><FontAwesomeIcon icon={faTrash}/></td>
                             </tr>
                         ))}
                     </tbody>
