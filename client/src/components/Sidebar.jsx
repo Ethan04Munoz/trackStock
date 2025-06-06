@@ -6,122 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
+import TypewriterMarkdown from './TypewriterMarkdown';
 
 function Sidebar() {
     const [activeBtn, setActiveBtn] = useState(true);
     const [apiKey, setApiKey] = useState('');
     const [recomendations, setRecommendations] = useState([]);
     const [userPrompt, setUserPrompt] = useState('');
-
-    async function suggestSimilarStocks() {
-        const stored = localStorage.getItem("trackedStocks");
-
-        if (!stored) {
-            //There are no tracked stocks in localStorage
-            return;
-        }
-
-        let stocks;
-        try {
-            stocks = JSON.parse(stored);
-        } catch (err) {
-            console.error("Error parsing trackedSymbols from localStorage:", err);
-            return;
-        }
-
-        if (!apiKey) {
-            // If no API key is provided, we cannot proceed
-            return;
-        }
-
-        try {
-            const response = await axios.post("http://localhost:5000/similar_stocks", {
-                api_key: apiKey,
-                stocks: stocks
-            });
-
-            const result = response.data;
-            console.log("Similar stock suggestions:", result);
-            setRecommendations(result.recommendations);
-
-        } catch (error) {
-            console.error("Error fetching similar stocks:", error);
-        }
-    }
-
-    async function aig() {
-        console.log("AIG button clicked");
-        const stored = localStorage.getItem("trackedStocks");
-
-        if (!stored) {
-            //There are no tracked stocks in localStorage
-            return;
-        }
-
-        let stocks;
-        try {
-            stocks = JSON.parse(stored);
-        } catch (err) {
-            console.error("Error parsing trackedSymbols from localStorage:", err);
-            return;
-        }
-
-        if (!apiKey) {
-            // If no API key is provided, we cannot proceed
-            return;
-        }
-
-        try {
-            const response = await axios.post("http://localhost:5000/aig_consult", {
-                api_key: apiKey,
-                stocks: stocks,
-                user_prompt: userPrompt
-            });
-
-            const result = response.data;
-            console.log("Similar diversified stocks:", result);
-            setRecommendations(result.recommendations);
-
-        } catch (error) {
-            console.error("Error fetching similar stocks:", error);
-        }
-    }
-
-    async function diversify() {
-        const stored = localStorage.getItem("trackedStocks");
-
-        if (!stored) {
-            //There are no tracked stocks in localStorage
-            return;
-        }
-
-        let stocks;
-        try {
-            stocks = JSON.parse(stored);
-        } catch (err) {
-            console.error("Error parsing trackedSymbols from localStorage:", err);
-            return;
-        }
-
-        if (!apiKey) {
-            // If no API key is provided, we cannot proceed
-            return;
-        }
-
-        try {
-            const response = await axios.post("http://localhost:5000/diverisy", {
-                api_key: apiKey,
-                stocks: stocks
-            });
-
-            const result = response.data;
-            console.log("Similar diversified stocks:", result);
-            setRecommendations(result.recommendations);
-
-        } catch (error) {
-            console.error("Error fetching similar stocks:", error);
-        }
-    }
 
     function handleApiKeyChange(event) {
         const key = event.target.value;
@@ -133,45 +24,55 @@ function Sidebar() {
         setUserPrompt(prompt);
     }
 
+    async function handleRequest(type) {
+        const stored = localStorage.getItem("trackedStocks");
+
+        if (!stored) {
+            //There are no tracked stocks in localStorage
+            return;
+        }
+
+        let stocks;
+        try {
+            stocks = JSON.parse(stored);
+        } catch (err) {
+            console.error("Error parsing trackedSymbols from localStorage:", err);
+            return;
+        }
+
+        if (!apiKey) {
+            // If no API key is provided, we cannot proceed
+            return;
+        }
+
+        try {
+            const response = await axios.post(`http://localhost:5000/${type}`, {
+                api_key: apiKey,
+                stocks: stocks,
+                user_prompt: userPrompt
+            });
+
+            const result = response.data;
+            console.log("Consult: ", result);
+            setRecommendations(result.recommendations);
+
+        } catch (error) {
+            console.error("Error fetching stocks:", error);
+        }
+    }
+
     useEffect(() => {
         console.log("Recomendaciones: ", recomendations);
     }, [recomendations]);
 
-    const TypewriterMarkdown = ({ content, speed = 20 }) => {
-        const [displayedText, setDisplayedText] = useState("");
-
-        useEffect(() => {
-            if (!content) return;
-
-            let index = 0;
-            const interval = setInterval(() => {
-                setDisplayedText((prev) => prev + content[index]);
-                index++;
-                if (index >= content.length) clearInterval(interval);
-            }, speed);
-
-            return () => clearInterval(interval);
-        }, [content, speed]);
-
-        return (
-            <div className="anws-container">
-                <ReactMarkdown>{displayedText}</ReactMarkdown>
-            </div>
-        );
-    };
 
     return (
         <div className="sidebar">
             <h3>StockAI</h3>
-            {/*<div className="anws-container">
-                <ReactMarkdown>
-                    {recomendations.length > 0 ?
-                        recomendations : ""}
-                </ReactMarkdown>
-            </div>*/}
             {recomendations.length > 0 ?
-                <TypewriterMarkdown content={recomendations} speed={60} />
-                : ""}
+                <TypewriterMarkdown content={recomendations} speed={100} />
+                : ""
+            }
 
             <div className="textarea-container">
                 <textarea name="" id="" placeholder='Ask...' onChange={saveUserPrompt}>
@@ -179,7 +80,7 @@ function Sidebar() {
                 <button
                     disabled={!activeBtn}
                     className={`sendr ${activeBtn == true ? 'sendrEbld' : 'sendrDbld'}`}
-                    onClick={aig}>
+                    onClick={() => handleRequest('aig_consult')}>
                     <FontAwesomeIcon icon={faArrowUp} />
                 </button>
             </div>
@@ -199,8 +100,8 @@ function Sidebar() {
             </div>
             <hr />
             <div className="suggestions">
-                <GhostBtn text="Suggest similar stocks" onClick={suggestSimilarStocks} />
-                <GhostBtn text="Diversify my portfolio" onClick={diversify} />
+                <GhostBtn text="Suggest similar stocks" onClick={() => handleRequest("similar_stocks")} />
+                <GhostBtn text="Diversify my portfolio" onClick={() => handleRequest("diversify")} />
             </div>
         </div>
     );
