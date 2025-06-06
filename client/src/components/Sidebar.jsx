@@ -11,6 +11,7 @@ function Sidebar() {
     const [activeBtn, setActiveBtn] = useState(true);
     const [apiKey, setApiKey] = useState('');
     const [recomendations, setRecommendations] = useState([]);
+    const [userPrompt, setUserPrompt] = useState('');
 
     async function suggestSimilarStocks() {
         const stored = localStorage.getItem("trackedStocks");
@@ -48,6 +49,43 @@ function Sidebar() {
         }
     }
 
+    async function aig() {
+        console.log("AIG button clicked");
+        const stored = localStorage.getItem("trackedStocks");
+
+        if (!stored) {
+            //There are no tracked stocks in localStorage
+            return;
+        }
+
+        let stocks;
+        try {
+            stocks = JSON.parse(stored);
+        } catch (err) {
+            console.error("Error parsing trackedSymbols from localStorage:", err);
+            return;
+        }
+
+        if (!apiKey) {
+            // If no API key is provided, we cannot proceed
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://localhost:5000/aig_consult", {
+                api_key: apiKey,
+                stocks: stocks,
+                user_prompt: userPrompt
+            });
+
+            const result = response.data;
+            console.log("Similar diversified stocks:", result);
+            setRecommendations(result.recommendations);
+
+        } catch (error) {
+            console.error("Error fetching similar stocks:", error);
+        }
+    }
 
     async function diversify() {
         const stored = localStorage.getItem("trackedStocks");
@@ -88,6 +126,11 @@ function Sidebar() {
     function handleApiKeyChange(event) {
         const key = event.target.value;
         setApiKey(key);
+    }
+
+    function saveUserPrompt(event) {
+        const prompt = event.target.value;
+        setUserPrompt(prompt);
     }
 
     useEffect(() => {
@@ -131,9 +174,12 @@ function Sidebar() {
                 : ""}
 
             <div className="textarea-container">
-                <textarea name="" id="" placeholder='Ask...'>
+                <textarea name="" id="" placeholder='Ask...' onChange={saveUserPrompt}>
                 </textarea>
-                <button disabled={activeBtn} className={`sendr ${activeBtn == true ? 'sendrEbld' : 'sendrDbld'}`}>
+                <button
+                    disabled={!activeBtn}
+                    className={`sendr ${activeBtn == true ? 'sendrEbld' : 'sendrDbld'}`}
+                    onClick={aig}>
                     <FontAwesomeIcon icon={faArrowUp} />
                 </button>
             </div>

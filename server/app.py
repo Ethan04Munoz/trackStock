@@ -9,6 +9,8 @@ CORS(app, resources={r"/search": {"origins": "http://localhost:5173"},
                      r"/stock/*": {"origins": "http://localhost:5173"},
                      r"/similar_stocks": {"origins": "http://localhost:5173"},
                      r"/recommend_stocks": {"origins": "http://localhost:5173"},
+                     r"/diversify": {"origins": "http://localhost:5173"},
+                    r"/aig_consult": {"origins": "http://localhost:5173"},
                     })
 
 def get_stock_data(ticker):
@@ -104,6 +106,37 @@ def search_stocks():
     except Exception:
         print("Excepcion al buscar el ticker")
         return jsonify([])
+    
+@app.route('/aig_consult', methods=['POST'])
+def aig():
+    data = request.get_json()
+
+    generativeai.configure(api_key=data.get('api_key'))
+
+    user_stocks = data.get('stocks', [])  
+    userpromt = data.get('user_prompt', '')
+
+    stocks_list = ', '.join([f"{stock['symbol']} - {stock['industry']}" for stock in user_stocks])
+
+    prompt = f"""
+    You are a financial analysis assistant. The user has provided a list of stocks along with the sectors they belong to. Additionally, they have a specific question or request.
+
+    Here is the list of stocks and their sectors: {stocks_list}.
+
+    The user has asked the following: {userpromt}.
+
+    Based on the provided stocks and sectors, and the user's question, provide a detailed and informative response in English.
+    """
+
+    #Set model
+    model = generativeai.GenerativeModel('gemini-1.5-flash')
+        
+    #Generate the content using the model
+    response = model.generate_content(prompt)
+
+    recommendations = response.text
+
+    return jsonify({'recommendations': recommendations})
 
 @app.route('/recommend_stocks', methods=['POST'])
 def recommend_stocks():
