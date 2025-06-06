@@ -16,6 +16,7 @@ function Sidebar() {
         const stored = localStorage.getItem("trackedStocks");
 
         if (!stored) {
+            //There are no tracked stocks in localStorage
             return;
         }
 
@@ -28,7 +29,7 @@ function Sidebar() {
         }
 
         if (!apiKey) {
-            alert("Please enter your API key first.");
+            // If no API key is provided, we cannot proceed
             return;
         }
 
@@ -48,7 +49,40 @@ function Sidebar() {
     }
 
 
-    function diversify() {
+    async function diversify() {
+        const stored = localStorage.getItem("trackedStocks");
+
+        if (!stored) {
+            //There are no tracked stocks in localStorage
+            return;
+        }
+
+        let stocks;
+        try {
+            stocks = JSON.parse(stored);
+        } catch (err) {
+            console.error("Error parsing trackedSymbols from localStorage:", err);
+            return;
+        }
+
+        if (!apiKey) {
+            // If no API key is provided, we cannot proceed
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://localhost:5000/diverisy", {
+                api_key: apiKey,
+                stocks: stocks
+            });
+
+            const result = response.data;
+            console.log("Similar diversified stocks:", result);
+            setRecommendations(result.recommendations);
+
+        } catch (error) {
+            console.error("Error fetching similar stocks:", error);
+        }
     }
 
     function handleApiKeyChange(event) {
@@ -60,13 +94,42 @@ function Sidebar() {
         console.log("Recomendaciones: ", recomendations);
     }, [recomendations]);
 
+    const TypewriterMarkdown = ({ content, speed = 20 }) => {
+        const [displayedText, setDisplayedText] = useState("");
+
+        useEffect(() => {
+            if (!content) return;
+
+            let index = 0;
+            const interval = setInterval(() => {
+                setDisplayedText((prev) => prev + content[index]);
+                index++;
+                if (index >= content.length) clearInterval(interval);
+            }, speed);
+
+            return () => clearInterval(interval);
+        }, [content, speed]);
+
+        return (
+            <div className="anws-container">
+                <ReactMarkdown>{displayedText}</ReactMarkdown>
+            </div>
+        );
+    };
+
     return (
         <div className="sidebar">
             <h3>StockAI</h3>
-            <ReactMarkdown>
-                {recomendations.length > 0 ?
-                recomendations : ""}
-            </ReactMarkdown>
+            {/*<div className="anws-container">
+                <ReactMarkdown>
+                    {recomendations.length > 0 ?
+                        recomendations : ""}
+                </ReactMarkdown>
+            </div>*/}
+            {recomendations.length > 0 ?
+                <TypewriterMarkdown content={recomendations} speed={60} />
+                : ""}
+
             <div className="textarea-container">
                 <textarea name="" id="" placeholder='Ask...'>
                 </textarea>

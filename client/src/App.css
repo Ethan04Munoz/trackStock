@@ -39,8 +39,8 @@ input[type="text"]:focus, textarea:focus {
 textarea{
     padding: 1rem;
     width: 100%;
-    min-height: 30vh;
-    max-height: 60vh;
+    min-height: 25vh;
+    max-height: 40vh;
     resize: none;
     background: var(--bg);
     border: 1px solid var(--transparent);
