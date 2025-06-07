@@ -34,7 +34,7 @@
 
 .sendrDbld {
     background: var(--bg);
-    cursor: pointer;
+    cursor: not-allowed;
 }
 
 .sendrEbld {
@@ -65,4 +65,31 @@
     min-height: 40vh;
     max-height: 60vh;
     overflow-y: auto;
+}
+
+.tooltip {
+    position: absolute;
+    left: 30%;
+    max-width: 10vw;
+    transform: translateX(-50%);
+    background-color: var(--bg);
+    border: 1px solid var(--text2);
+    color: var(--text);
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px var(--text2);
+    z-index: 10;
+    transition: all 0.3s ease-in-out;
+}
+
+.askToltip {
+    top: 35%;
+}
+
+.suggestTooltip{
+    top: 60%;
+}
+
+.diversifyToltip{
+    top: 70%;
 }

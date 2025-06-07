@@ -13,6 +13,7 @@ h1 {
 
 body {
     background: var(--bgDarker);
+    overflow-y: hidden;
 }
 
 .form {

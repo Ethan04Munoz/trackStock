@@ -5,14 +5,15 @@ import GhostBtn from './GhostBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
 import TypewriterMarkdown from './TypewriterMarkdown';
 
 function Sidebar() {
-    const [activeBtn, setActiveBtn] = useState(true);
     const [apiKey, setApiKey] = useState('');
     const [recomendations, setRecommendations] = useState([]);
     const [userPrompt, setUserPrompt] = useState('');
+    const [showAskTooltip, setShowAskTooltip] = useState(false);
+    const [showSuggestTooltip, setShowSuggestTooltip] = useState(false);
+    const [showDiversifyTooltip, setShowDiversifyTooltip] = useState(false);
 
     function handleApiKeyChange(event) {
         const key = event.target.value;
@@ -25,6 +26,7 @@ function Sidebar() {
     }
 
     async function handleRequest(type) {
+        console.log("Handling request for type:", type);
         const stored = localStorage.getItem("trackedStocks");
 
         if (!stored) {
@@ -78,12 +80,21 @@ function Sidebar() {
                 <textarea name="" id="" placeholder='Ask...' onChange={saveUserPrompt}>
                 </textarea>
                 <button
-                    disabled={!activeBtn}
-                    className={`sendr ${activeBtn == true ? 'sendrEbld' : 'sendrDbld'}`}
-                    onClick={() => handleRequest('aig_consult')}>
+                    disabled={(apiKey.length === 0 || userPrompt.length === 0) ? true : false}
+                    className={`sendr ${(apiKey.length === 0 || userPrompt.length === 0) ? 'sendrDbld' : 'sendrEbld'}`}
+                    onClick={() => handleRequest('aig_consult')}
+                    onMouseOver={() => {console.log("Todo lo que tu me pidas");setShowAskTooltip(true)}}
+                    onMouseOut={() => setShowAskTooltip(false)}
+                >
                     <FontAwesomeIcon icon={faArrowUp} />
                 </button>
             </div>
+            {(showAskTooltip && (apiKey.length === 0 || userPrompt.length === 0)) &&
+                <div className="tooltip askToltip">
+                    To make a request, you need to write a prompt and have an API Key.
+                </div>
+            }
+
             <div className="apikey">
                 <input type="text" placeholder='Write here your Gemini API Key' onChange={handleApiKeyChange} />
                 <HelpButton
@@ -100,8 +111,33 @@ function Sidebar() {
             </div>
             <hr />
             <div className="suggestions">
-                <GhostBtn text="Suggest similar stocks" onClick={() => handleRequest("similar_stocks")} />
-                <GhostBtn text="Diversify my portfolio" onClick={() => handleRequest("diversify")} />
+                <GhostBtn
+                    disabled={apiKey.length === 0 ? true : false}
+                    text="Suggest similar stocks"
+                    onClick={() => handleRequest("similar_stocks")}
+                    extraClass={apiKey.length > 0 ? "" : "disabledGhost"}
+                    onMouseOver={() => {console.log("Todo lo que tu me pidas"); setShowSuggestTooltip(true)}}
+                    onMouseOut={() => setShowSuggestTooltip(false)}
+                />
+                {(showSuggestTooltip && apiKey.length < 1) &&
+                    <div className="tooltip suggestTooltip">
+                        To consult similar stocks, you need to have an API Key.
+                    </div>
+                }
+
+                <GhostBtn
+                    disabled={apiKey.length === 0 ? true : false}
+                    text="Diversify my portfolio"
+                    onClick={() => handleRequest("diversify")}
+                    extraClass={apiKey.length > 0 ? "" : "disabledGhost"}
+                    onMouseOver={() => setShowDiversifyTooltip(true)}
+                    onMouseOut={() => setShowDiversifyTooltip(false)}
+                />
+                {(showDiversifyTooltip && apiKey.length < 1) &&
+                    <div className="tooltip diversifyToltip">
+                        To diversify your portfolio, you need to have an API Key.
+                    </div>
+                }
             </div>
         </div>
     );

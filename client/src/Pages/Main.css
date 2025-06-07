@@ -2,7 +2,6 @@
     background: var(--bg);
     height: 100%;
     min-height: 85vh;
-    overflow: hidden;
 }
 
 .mainPage {

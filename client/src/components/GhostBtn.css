@@ -12,3 +12,11 @@
 .btnGhost:hover{
     background: var(--hover);
 }
+
+.disabledGhost{
+    cursor: not-allowed;
+}
+
+.disabledGhost:hover{
+    background: transparent;
+}

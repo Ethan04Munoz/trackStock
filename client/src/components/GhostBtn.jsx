@@ -3,7 +3,13 @@ import "./GhostBtn.css";
 
 function GhostBtn(props) {
     return (
-        <button className="btnGhost" onClick={props.onClick}>
+        <button
+            disabled={props.disabled}
+            className={"btnGhost " + props.extraClass}
+            onClick={props.onClick}
+            onMouseOver={props.onMouseOver}
+            onMouseOut={props.onMouseOut}
+        >
             {props.text}
         </button>
     );
