@@ -73,11 +73,11 @@
     max-width: 10vw;
     transform: translateX(-50%);
     background-color: var(--bg);
-    border: 1px solid var(--text2);
+    border: 1px solid #7b81ff;
+        box-shadow: 0 2px 4px #7b81ff;
     color: var(--text);
     padding: 0.5rem;
     border-radius: 0.25rem;
-    box-shadow: 0 2px 4px var(--text2);
     z-index: 10;
     transition: all 0.3s ease-in-out;
 }

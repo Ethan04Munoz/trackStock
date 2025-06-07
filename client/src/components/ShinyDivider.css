@@ -1,0 +1,7 @@
+.shiny-divider {
+    height: 0.2rem;
+    background: linear-gradient(to right, #a16cff 0%, #7b81ff 0%);
+    margin: 2rem 0; 
+    border-radius: 1px;
+    filter: drop-shadow(0 0.5rem 0.5rem #646cffda);
+}

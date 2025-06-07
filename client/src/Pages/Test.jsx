@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../components/Header";
+import ShinyDivider from "../components/ShinyDivider";
 
 function Test() {
     return (
@@ -19,6 +20,16 @@ function Test() {
                         the AI features, you should download the app from GitHub and run it locally.
                     </p>
                     <h2>Follow the next steps to get this working locally in your computer</h2>
+                    <ShinyDivider />
+                    <div className="centrar8">
+                        <div></div>
+                        <a className='github' href="https://github.com/Ethan04Munoz">
+                            <div className=''>
+                                <img src="github-Dark.svg" alt="" />
+                            </div>
+                        </a>
+                        <div></div>
+                    </div>
                 </div>
             </div>
         </div>

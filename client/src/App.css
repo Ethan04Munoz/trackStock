@@ -13,7 +13,6 @@ h1 {
 
 body {
     background: var(--bgDarker);
-    overflow-y: hidden;
 }
 
 .form {
@@ -32,12 +31,13 @@ input[type="text"] {
     border: 1px solid var(--transparent);
 }
 
-input[type="text"]:focus, textarea:focus {
+input[type="text"]:focus,
+textarea:focus {
     outline: none;
     border: 1px solid var(--text2);
 }
 
-textarea{
+textarea {
     padding: 1rem;
     width: 100%;
     min-height: 25vh;
@@ -67,3 +67,16 @@ button:hover {
 }
 */
 
+.centrar8 {
+    display: grid;
+    grid-template-columns: 46% 8% 46%;
+}
+
+.about {
+    overflow-y: auto;
+
+}
+
+.about .page {
+    padding: 10vh 0;
+}
