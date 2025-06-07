@@ -6,6 +6,7 @@ import Search from "./Search";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Dashboard() {
     // States
@@ -44,6 +45,7 @@ function Dashboard() {
 
                 setStockData(data);
             } catch (error) {
+                toast.error('Error fetching stock data. Please try again later.');
                 console.error('Error fetching stock data:', error);
             }
         };
@@ -55,6 +57,7 @@ function Dashboard() {
             const updatedSymbols = [...symbols, newSymbol];
             setSymbols(updatedSymbols);
             localStorage.setItem("trackedSymbols", JSON.stringify(updatedSymbols));
+            toast.success(`Stock ${newSymbol} added successfully!`);
         }
     };
 
@@ -66,6 +69,7 @@ function Dashboard() {
         const updatedStockData = stockData.filter(stock => stock.symbol !== symbol);
         setStockData(updatedStockData);
         localStorage.setItem("trackedStocks", JSON.stringify(updatedStockData));
+        toast.success(`Stock ${symbol} removed successfully!`);
     }
     
     useEffect(() => {

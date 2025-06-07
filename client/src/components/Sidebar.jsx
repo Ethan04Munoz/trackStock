@@ -30,6 +30,7 @@ function Sidebar() {
         const stored = localStorage.getItem("trackedStocks");
 
         if (!stored) {
+            toast.error('You don\'t have any tracked stocks yet. Please add some stocks to your portfolio.');
             //There are no tracked stocks in localStorage
             return;
         }
@@ -38,11 +39,14 @@ function Sidebar() {
         try {
             stocks = JSON.parse(stored);
         } catch (err) {
+            toast.error('There was an error parsing your tracked stocks. Please check your localStorage.');
             console.error("Error parsing trackedSymbols from localStorage:", err);
             return;
         }
 
         if (!apiKey) {
+            toast.error('Please provide your Gemini API Key to make a request.');
+            console.error("No API key provided.");
             // If no API key is provided, we cannot proceed
             return;
         }
@@ -59,6 +63,7 @@ function Sidebar() {
             setRecommendations(result.recommendations);
 
         } catch (error) {
+            toast.error('Something went wrong. Please try again later.');
             console.error("Error fetching stocks:", error);
         }
     }
