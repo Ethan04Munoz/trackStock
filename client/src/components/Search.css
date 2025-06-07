@@ -1,11 +1,9 @@
-.searchContainer{
+.searchContainer {
     width: 100%;
     box-sizing: border-box;
 }
 
-.searchStockInput{
-
-}
+.searchStockInput {}
 
 ul {
     list-style-type: none;
@@ -13,7 +11,8 @@ ul {
     margin: 0;
 }
 
-li, .loadingOption {
+li,
+.loadingOption {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     padding: 0.5rem;
@@ -22,4 +21,23 @@ li, .loadingOption {
 
 li p {
     grid-column: span 9;
+}
+
+.addButton {
+    background-color: transparent;
+    border: 1px solid currentColor;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.added {
+    background-color: green;
+    color: white;
+    border-color: green;
+    cursor: default;
+    transition: all 0.3s ease;
 }

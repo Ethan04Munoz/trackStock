@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Search.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faCheck } from '@fortawesome/free-solid-svg-icons';
 
-function Search (props) {
+function Search(props) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
@@ -16,6 +19,7 @@ function Search (props) {
                         console.log('Datos obtenidos:', response.data);
                         setResults(response.data);
                         setLoading(false);
+                        setClicked(false); // reset button state on new results
                     })
                     .catch(error => {
                         console.error('Error al obtener datos:', error);
@@ -23,11 +27,20 @@ function Search (props) {
                     });
             } else {
                 setResults([]);
+                setClicked(false);
             }
         }, 300);
 
         return () => clearTimeout(delayDebounceFn);
     }, [query]);
+
+    const handleAdd = (symbol) => {
+        setClicked(true);
+        props.onClick(symbol);
+        setTimeout(() => {
+            setResults([]);
+        }, 1000);
+    };
 
     return (
         <div className='searchContainer'>
@@ -41,12 +54,14 @@ function Search (props) {
             {loading && <p className='loadingOption'>Loading...</p>}
             <ul>
                 {results.map((stock, index) => (
-                    <li
-                        key={index}
-                    >
+                    <li key={index}>
                         <p>{stock.symbol} - {stock.name}</p>
-                        <button onClick={() => props.onClick(stock.symbol)}>
-                            Add
+                        <button
+                            onClick={() => handleAdd(stock.symbol)}
+                            disabled={clicked}
+                            className={`addButton ${clicked ? 'added' : ''}`}
+                        >
+                            {clicked ? <FontAwesomeIcon icon={faCheck} /> : 'Add'}
                         </button>
                     </li>
                 ))}
