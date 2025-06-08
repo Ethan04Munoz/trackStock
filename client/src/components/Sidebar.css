@@ -74,7 +74,7 @@
     transform: translateX(-50%);
     background-color: var(--bg);
     border: 1px solid #7b81ff;
-        box-shadow: 0 2px 4px #7b81ff;
+    box-shadow: 0 2px 4px #7b81ff;
     color: var(--text);
     padding: 0.5rem;
     border-radius: 0.25rem;
@@ -86,10 +86,16 @@
     top: 35%;
 }
 
-.suggestTooltip{
+.suggestTooltip {
     top: 60%;
 }
 
-.diversifyToltip{
+.diversifyToltip {
     top: 70%;
+}
+
+.loading {
+    font-size: 1.2rem;
+    padding: 0.5rem 0;
+    text-align: center;
 }

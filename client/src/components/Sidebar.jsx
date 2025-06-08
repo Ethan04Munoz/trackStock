@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Sidebar.css';
 import HelpButton from './Helpbutton';
 import GhostBtn from './GhostBtn';
@@ -9,29 +9,47 @@ import TypewriterMarkdown from './TypewriterMarkdown';
 
 function Sidebar() {
     const [apiKey, setApiKey] = useState('');
-    const [recomendations, setRecommendations] = useState([]);
+    const [recommendations, setRecommendations] = useState([]);
     const [userPrompt, setUserPrompt] = useState('');
     const [showAskTooltip, setShowAskTooltip] = useState(false);
     const [showSuggestTooltip, setShowSuggestTooltip] = useState(false);
     const [showDiversifyTooltip, setShowDiversifyTooltip] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadingDots, setLoadingDots] = useState('');
+
+    useEffect(() => {
+        let interval;
+        const dots = ['.', '..', '...', '..', '.', '..', '...'];
+        let index = 0;
+
+        if (isLoading) {
+            setLoadingDots(dots[index]);
+            interval = setInterval(() => {
+                index = (index + 1) % dots.length;
+                setLoadingDots(dots[index]);
+            }, 500);
+        } else {
+            setLoadingDots('');
+        }
+
+        return () => clearInterval(interval);
+    }, [isLoading]);
+
     function handleApiKeyChange(event) {
-        const key = event.target.value;
-        setApiKey(key);
+        setApiKey(event.target.value);
     }
 
     function saveUserPrompt(event) {
-        const prompt = event.target.value;
-        setUserPrompt(prompt);
+        setUserPrompt(event.target.value);
     }
 
     async function handleRequest(type) {
         console.log("Handling request for type:", type);
-        const stored = localStorage.getItem("trackedStocks");
 
+        const stored = localStorage.getItem("trackedStocks");
         if (!stored) {
             toast.error('You don\'t have any tracked stocks yet. Please add some stocks to your portfolio.');
-            //There are no tracked stocks in localStorage
             return;
         }
 
@@ -47,48 +65,48 @@ function Sidebar() {
         if (!apiKey) {
             toast.error('Please provide your Gemini API Key to make a request.');
             console.error("No API key provided.");
-            // If no API key is provided, we cannot proceed
             return;
         }
 
+        setIsLoading(true);
         try {
             const response = await axios.post(`http://localhost:5000/${type}`, {
                 api_key: apiKey,
                 stocks: stocks,
                 user_prompt: userPrompt
             });
-
             const result = response.data;
             console.log("Consult: ", result);
             setRecommendations(result.recommendations);
-
         } catch (error) {
             toast.error('Something went wrong. Please try again later.');
             console.error("Error fetching stocks:", error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
     useEffect(() => {
-        console.log("Recomendaciones: ", recomendations);
-    }, [recomendations]);
-
+        console.log("Recommendations: ", recommendations);
+    }, [recommendations]);
 
     return (
         <div className="sidebar">
             <h3>StockAI</h3>
-            {recomendations.length > 0 ?
-                <TypewriterMarkdown content={recomendations} speed={100} />
-                : ""
-            }
+            {/* Loading indicator with cycling dots */}
+            {isLoading && <div className="loading">{loadingDots}</div>}
+
+            {recommendations.length > 0 && !isLoading && (
+                <TypewriterMarkdown content={recommendations} speed={100} />
+            )}
 
             <div className="textarea-container">
-                <textarea name="" id="" placeholder='Ask...' onChange={saveUserPrompt}>
-                </textarea>
+                <textarea placeholder='Ask...' onChange={saveUserPrompt} />
                 <button
                     disabled={(apiKey.length === 0 || userPrompt.length === 0) ? true : false}
                     className={`sendr ${(apiKey.length === 0 || userPrompt.length === 0) ? 'sendrDbld' : 'sendrEbld'}`}
                     onClick={() => handleRequest('aig_consult')}
-                    onMouseOver={() => {console.log("Todo lo que tu me pidas");setShowAskTooltip(true)}}
+                    onMouseOver={() => setShowAskTooltip(true)}
                     onMouseOut={() => setShowAskTooltip(false)}
                 >
                     <FontAwesomeIcon icon={faArrowUp} />
@@ -115,6 +133,7 @@ function Sidebar() {
                     apikey={apiKey}
                 />
             </div>
+
             <hr />
             <div className="suggestions">
                 <GhostBtn
