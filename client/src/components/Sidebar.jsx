@@ -112,6 +112,7 @@ function Sidebar() {
                     This is an open project, so you can see the code and how it works.
                     If you want to use this tool (for educational porpuses) please download
                     it from GitHub and run it locally."
+                    apikey={apiKey}
                 />
             </div>
             <hr />

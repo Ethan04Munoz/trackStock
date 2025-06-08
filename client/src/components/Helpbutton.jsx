@@ -16,6 +16,15 @@ const HelpButton = (props) => {
         }
     }, []);
 
+    useEffect(() => {
+        const firstTimeAPIKey = localStorage.getItem("fa");
+        if (!firstTimeAPIKey && props.apikey.length > 0) {
+            localStorage.setItem("fa", "true");
+            setIsOpen(true);
+        }
+        console.log("API Key length:", props.apikey);
+    }, [props.apikey]);
+
     return (
         <>
             <button className="help-button" onClick={toggleModal}>
