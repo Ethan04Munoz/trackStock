@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchStockData } from "../utils/mockup";
 import "./Dashboard.css";
-import { getPEClass, getPEGClass, getPSClass, truncate } from "../utils/functions";
+import { getDebtToEquityClass, getFiftyDayAvgClass, getFiftyTwoWeekHighClass, getGrossMarginClass, getPBClass, getPEClass, getPEGClass, getPSClass, truncate } from "../utils/functions";
 import Search from "./Search";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -65,20 +65,20 @@ function Dashboard() {
         const updatedSymbols = symbols.filter(s => s !== symbol);
         setSymbols(updatedSymbols);
         localStorage.setItem("trackedSymbols", JSON.stringify(updatedSymbols));
-        
+
         const updatedStockData = stockData.filter(stock => stock.symbol !== symbol);
         setStockData(updatedStockData);
         localStorage.setItem("trackedStocks", JSON.stringify(updatedStockData));
         toast.success(`Stock ${symbol} removed successfully!`);
     }
-    
+
     useEffect(() => {
         console.log("Stock data updated:", stocks);
         if (stocks.length > 0) {
             localStorage.setItem("trackedStocks", JSON.stringify(stocks));
         }
     }
-    , [stocks]);
+        , [stocks]);
 
 
     return (
@@ -108,18 +108,40 @@ function Dashboard() {
                     <tbody>
                         {stockData.map((stock) => (
                             <tr key={stock.symbol}>
-                                <td>{stock.symbol}</td>
-                                <td>{stock.price}</td>
-                                <td className={getPEClass(stock.metrics.pe)}>{truncate(stock.metrics.pe, 2)}</td>
-                                <td className={getPEClass(stock.metrics.fwd_pe)}>{truncate(stock.metrics.fwd_pe, 2)}</td>
-                                <td className={getPSClass(stock.metrics.ps)}>{truncate(stock.metrics.ps, 2)}</td>
-                                <td className={getPEGClass(stock.metrics.peg)}>{truncate(stock.metrics.peg, 2)}</td>
-                                <td>{truncate(stock.metrics.debt_to_equity, 2)}</td>
-                                <td>{truncate(stock.metrics.fifty_day_avg, 2)}</td>
-                                <td>{truncate(stock.metrics.fifty_two_week_high, 2)}</td>
-                                <td>{truncate(stock.metrics.gross_margin, 2)}</td>
-                                <td>{truncate(stock.metrics.pb, 2)}</td>
-                                <td onClick={() => deleteStock(stock.symbol)} className="btn_delete"><FontAwesomeIcon icon={faTrash}/></td>
+                                <td>
+                                    {stock.symbol}
+                                </td>
+                                <td>
+                                    {stock.price}
+                                </td>
+                                <td className={getPEClass(stock.metrics.pe)}>
+                                    {truncate(stock.metrics.pe, 2)}
+                                </td>
+                                <td className={getPEClass(stock.metrics.fwd_pe)}>
+                                    {truncate(stock.metrics.fwd_pe, 2)}
+                                </td>
+                                <td className={getPSClass(stock.metrics.ps)}>
+                                    {truncate(stock.metrics.ps, 2)}
+                                </td>
+                                <td className={getPEGClass(stock.metrics.peg)}>
+                                    {truncate(stock.metrics.peg, 2)}
+                                </td>
+                                <td className={getDebtToEquityClass(stock.metrics.debt_to_equity)}>
+                                    {truncate(stock.metrics.debt_to_equity, 2)}
+                                </td>
+                                <td className={getFiftyDayAvgClass(stock.metrics.fifty_day_avg, stock.price)}>
+                                    {truncate(stock.metrics.fifty_day_avg, 2)}
+                                </td>
+                                <td className={getFiftyTwoWeekHighClass(stock.metrics.fifty_two_week_high, stock.price)}>
+                                    {truncate(stock.metrics.fifty_two_week_high, 2)}
+                                </td>
+                                <td className={getGrossMarginClass(stock.metrics.gross_margin)}>
+                                    {truncate(stock.metrics.gross_margin, 2)}
+                                </td>
+                                <td className={getPBClass(stock.metrics.pb)}>
+                                    {truncate(stock.metrics.pb, 2)}
+                                </td>
+                                <td onClick={() => deleteStock(stock.symbol)} className="btn_delete"><FontAwesomeIcon icon={faTrash} /></td>
                             </tr>
                         ))}
                     </tbody>
