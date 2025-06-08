@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import './Helpbutton.css';
@@ -7,6 +7,14 @@ const HelpButton = (props) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleModal = () => setIsOpen(!isOpen);
+
+    useEffect(() => {
+        const firstTime = localStorage.getItem("f");
+        if (!firstTime) {
+            localStorage.setItem("f", "true");
+            setIsOpen(true);
+        }
+    }, []);
 
     return (
         <>
