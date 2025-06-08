@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import './Header.css';
+import ConfigModal from './ConfigModal';
 
 function Header(props) {
     const page = props.page;
@@ -34,6 +35,7 @@ function Header(props) {
                         Test
                     </Link>
                 </div>
+                <ConfigModal />
             </div>
         </div>
     )

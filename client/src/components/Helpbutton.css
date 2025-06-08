@@ -52,3 +52,19 @@
 .close-button:hover {
     background-color: #c82333;
 }
+
+.green-button {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #2cba59;
+    color: var(--text);
+    border: none;
+    padding: 10px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.green-button:hover {
+    background-color: #249949;
+}   

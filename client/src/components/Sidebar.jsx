@@ -141,7 +141,7 @@ function Sidebar() {
                     text="Suggest similar stocks"
                     onClick={() => handleRequest("similar_stocks")}
                     extraClass={apiKey.length > 0 ? "" : "disabledGhost"}
-                    onMouseOver={() => {console.log("Todo lo que tu me pidas"); setShowSuggestTooltip(true)}}
+                    onMouseOver={() => setShowSuggestTooltip(true)}
                     onMouseOut={() => setShowSuggestTooltip(false)}
                 />
                 {(showSuggestTooltip && apiKey.length < 1) &&

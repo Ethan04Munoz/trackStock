@@ -141,7 +141,9 @@ function Dashboard() {
                                 <td className={getPBClass(stock.metrics.pb)}>
                                     {truncate(stock.metrics.pb, 2)}
                                 </td>
-                                <td onClick={() => deleteStock(stock.symbol)} className="btn_delete"><FontAwesomeIcon icon={faTrash} /></td>
+                                <td onClick={() => deleteStock(stock.symbol)} className="btn_delete">
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </td>
                             </tr>
                         ))}
                     </tbody>
