@@ -5,6 +5,11 @@
     /*padding: 10vh 0;*/
 }
 
+.page img {
+    width: 100%;
+    border-radius: 1rem;
+}
+
 .mainPage {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
