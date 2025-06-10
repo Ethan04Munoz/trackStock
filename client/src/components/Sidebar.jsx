@@ -69,7 +69,7 @@ function Sidebar() {
         }
 
         setIsLoading(true);
-        try {
+        /*try {
             const response = await axios.post(`http://localhost:5000/${type}`, {
                 api_key: apiKey,
                 stocks: stocks,
@@ -83,7 +83,11 @@ function Sidebar() {
             console.error("Error fetching stocks:", error);
         } finally {
             setIsLoading(false);
-        }
+        }*/
+        toast.info('This is a mockup, download the project to see the real functionality of the consults.');
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
     }
 
     useEffect(() => {

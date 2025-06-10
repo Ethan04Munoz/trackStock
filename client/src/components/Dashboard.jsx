@@ -25,7 +25,7 @@ function Dashboard() {
     // Obtener la información de las acciones usando los símbolos
     useEffect(() => {
         const fetchData = async () => {
-            try {
+            /*try {
                 const requests = symbols.map(symbol =>
                     axios.get(`http://localhost:5000/stock/${symbol}`)
                 );
@@ -47,7 +47,8 @@ function Dashboard() {
             } catch (error) {
                 toast.error('Error fetching stock data. Please try again later.');
                 console.error('Error fetching stock data:', error);
-            }
+            }*/
+           toast.info('This is a mockup, download the project to see the real functionality of the tracking dashboard.');
         };
         fetchData();
     }, [symbols]);

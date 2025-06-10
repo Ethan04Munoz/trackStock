@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Search.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 function Search(props) {
     const [query, setQuery] = useState('');
@@ -11,6 +12,7 @@ function Search(props) {
     const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
+        /*
         const delayDebounceFn = setTimeout(() => {
             if (query.length > 0) {
                 setLoading(true);
@@ -32,6 +34,8 @@ function Search(props) {
         }, 300);
 
         return () => clearTimeout(delayDebounceFn);
+        */
+        toast.info('This is a mockup, download the project to see the real functionality of Search.');
     }, [query]);
 
     const handleAdd = (symbol) => {
